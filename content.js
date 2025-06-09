@@ -36,50 +36,73 @@ function selectProModel() {
     `[Gemini Pro Setter] Current model: "${currentModelName}". Attempting to switch to a Pro model.`
   );
 
-  modelButton.click();
+  const style = document.createElement("style");
+  style.id = "gemini-pro-hider-style";
+  style.innerHTML = `
+    .mat-mdc-menu-panel.gds-mode-switch-menu, 
+    .bard-mode-bottom-sheet {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transition: none !important;
+        animation: none !important;
+    }
+  `;
+  document.head.appendChild(style);
 
   setTimeout(() => {
-    const menuItems = document.querySelectorAll(
-      'div[role="menu"] button.mat-mdc-menu-item, .bard-mode-bottom-sheet button.bard-mode-list-button'
-    );
+    modelButton.click();
 
-    let bestOptionToClick = null;
-    let foundModelName = "";
+    setTimeout(() => {
+      const menuItems = document.querySelectorAll(
+        'div[role="menu"] button.mat-mdc-menu-item, .bard-mode-bottom-sheet button.bard-mode-list-button'
+      );
 
-    for (const targetName of targetModelNames) {
-      for (const item of menuItems) {
-        const modelNameSpan = item.querySelector(
-          ".mode-title, .title-and-description > .gds-label-l"
-        );
-        if (modelNameSpan && modelNameSpan.textContent.trim() === targetName) {
-          bestOptionToClick = item;
-          foundModelName = targetName;
+      let bestOptionToClick = null;
+      let foundModelName = "";
+
+      for (const targetName of targetModelNames) {
+        for (const item of menuItems) {
+          const modelNameSpan = item.querySelector(
+            ".mode-title, .title-and-description > .gds-label-l"
+          );
+          if (
+            modelNameSpan &&
+            modelNameSpan.textContent.trim() === targetName
+          ) {
+            bestOptionToClick = item;
+            foundModelName = targetName;
+            break;
+          }
+        }
+        if (bestOptionToClick) {
           break;
         }
       }
-      if (bestOptionToClick) {
-        break;
-      }
-    }
 
-    if (bestOptionToClick) {
-      console.log(
-        `[Gemini Pro Setter] Found "${foundModelName}" option in the menu. Clicking.`
-      );
-      bestOptionToClick.click();
-      observer.disconnect();
-      console.log(
-        "[Gemini Pro Setter] Successfully switched model. Observer disconnected."
-      );
-    } else {
-      console.log(
-        `[Gemini Pro Setter] Could not find any suitable Pro model. No further attempts will be made on this page.`
-      );
-      if (document.querySelector('div[role="menu"]')) {
-        modelButton.click();
+      if (bestOptionToClick) {
+        console.log(
+          `[Gemini Pro Setter] Found "${foundModelName}" option in the menu. Clicking.`
+        );
+        bestOptionToClick.click();
+        observer.disconnect();
+        console.log(
+          "[Gemini Pro Setter] Successfully switched model. Observer disconnected."
+        );
+      } else {
+        console.log(
+          `[Gemini Pro Setter] Could not find any suitable Pro model. No further attempts will be made on this page.`
+        );
+        if (document.querySelector('div[role="menu"]')) {
+          modelButton.click();
+        }
       }
-    }
-  }, 500);
+
+      const injectedStyle = document.getElementById("gemini-pro-hider-style");
+      if (injectedStyle) {
+        injectedStyle.remove();
+      }
+    }, 500);
+  }, 20);
 }
 
 const observer = new MutationObserver(() => {
