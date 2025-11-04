@@ -20,12 +20,12 @@ function selectProModel() {
   }
 
   const currentModelName = currentModelSpan.textContent.trim();
-  const targetModelNames = ["2.5 Pro (preview)", "2.5 Pro"];
+  const targetModelNames = ["2.5 Pro 2 (preview)", "2.5 Pro 2"];
 
   if (targetModelNames.includes(currentModelName)) {
     hasAttemptedSwitch = true;
     console.log(
-      `[Gemini Pro Setter] "${currentModelName}" is already selected. Observer disconnected.`
+      `[Gemini Pro 2 Setter] "${currentModelName}" is already selected. Observer disconnected.`
     );
     observer.disconnect();
     return;
@@ -33,7 +33,7 @@ function selectProModel() {
 
   hasAttemptedSwitch = true;
   console.log(
-    `[Gemini Pro Setter] Current model: "${currentModelName}". Attempting to switch to a Pro model.`
+    `[Gemini Pro 2 Setter] Current model: "${currentModelName}". Attempting to switch to a Pro 2 model.`
   );
 
   const style = document.createElement("style");
@@ -81,16 +81,16 @@ function selectProModel() {
 
       if (bestOptionToClick) {
         console.log(
-          `[Gemini Pro Setter] Found "${foundModelName}" option in the menu. Clicking.`
+          `[Gemini Pro 2 Setter] Found "${foundModelName}" option in the menu. Clicking.`
         );
         bestOptionToClick.click();
         observer.disconnect();
         console.log(
-          "[Gemini Pro Setter] Successfully switched model. Observer disconnected."
+          "[Gemini Pro 2 Setter] Successfully switched model. Observer disconnected."
         );
       } else {
         console.log(
-          `[Gemini Pro Setter] Could not find any suitable Pro model. No further attempts will be made on this page.`
+          `[Gemini Pro 2 Setter] Could not find any suitable Pro 2 model. No further attempts will be made on this page.`
         );
         if (document.querySelector('div[role="menu"]')) {
           modelButton.click();

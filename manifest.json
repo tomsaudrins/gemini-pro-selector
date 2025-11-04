@@ -1,8 +1,8 @@
 {
-  "name": "Gemini Pro Default",
+  "name": "Gemini Pro 2 Default",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Sets Gemini 2.5 Pro as the default model on gemini.google.com.",
+  "description": "Sets Gemini 2.5 Pro 2 as the default model on gemini.google.com.",
   "content_scripts": [
     {
       "matches": ["https://gemini.google.com/app"],
